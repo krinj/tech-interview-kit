@@ -80,3 +80,11 @@ A lot of problems are solved using data structures and algorithms. So we will st
 
 
 
+```bash
+sudo apt-get install libgtest-dev
+```
+
+https://www.eriksmistad.no/getting-started-with-google-test-on-ubuntu/
+
+
+
