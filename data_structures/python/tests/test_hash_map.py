@@ -16,6 +16,8 @@ class TestHashMap(unittest.TestCase):
         self.hash_map["F"] = 6
         self.hash_map["G"] = 7
         self.hash_map["H"] = 8
+        self.hash_map["A"] = 1
+        self.hash_map["A"] = 1
 
         self.assertEqual(8, self.hash_map.size())
 
@@ -28,8 +30,9 @@ class TestHashMap(unittest.TestCase):
         self.hash_map["F"] = 6
         self.hash_map["G"] = 7
         self.hash_map["H"] = 8
+        self.hash_map["A"] = 99
 
-        self.assertEqual(1, self.hash_map["A"])
+        self.assertEqual(99, self.hash_map["A"])
         self.assertEqual(2, self.hash_map["B"])
         self.assertEqual(3, self.hash_map["C"])
         self.assertEqual(4, self.hash_map["D"])

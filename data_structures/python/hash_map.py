@@ -55,9 +55,9 @@ class HashMap:
 
         if key is None:
             raise Exception("Cannot use None for key.")
-        self._set_item_to_array(key, value, self._storage)
+        size_increase = self._set_item_to_array(key, value, self._storage)
 
-        self._size += 1
+        self._size += size_increase
         if self._size >= self._limit:
             self.resize(int(self._capacity * 1.5))
 
@@ -65,12 +65,16 @@ class HashMap:
         index = self.get_hash_index(key, len(array))
         node = array[index]
 
-        while node.key is not None:
+        while node.key is not None and node.key != key:
             node = node.next
 
         node.key = key
         node.val = value
-        node.next = HashNode()
+        if node.next is None:
+            node.next = HashNode()
+            return 1
+        else:
+            return 0
 
     def size(self):
         return self._size

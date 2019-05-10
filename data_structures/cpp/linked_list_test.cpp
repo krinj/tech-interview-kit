@@ -5,10 +5,6 @@
 
 using namespace std;
 
-unsigned int Factorial( unsigned int number ) {
-    return number <= 1 ? number : Factorial(number-1)*number;
-}
-
 TEST_CASE("Can add items to LL.", "[LinkedList]") {
     LinkedList<int> ll;
     ll.addHead(1);
