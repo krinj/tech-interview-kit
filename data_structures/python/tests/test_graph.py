@@ -87,6 +87,13 @@ class TestGraph(unittest.TestCase):
 
         graph.display()
 
+    def test_edge_weight(self):
+        graph = Graph(directed=False)
+        graph.add_edge("A", "B", 5)
+        graph.add_edge("B", "C", 12)
+        self.assertEqual(5, graph.get_edge_weight("B", "A"))
+        self.assertEqual(12, graph.get_edge_weight("B", "C"))
+
     def test_graph_indexer(self):
         """ Test overridden index operators. """
         graph = Graph(directed=False)

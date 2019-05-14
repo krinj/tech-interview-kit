@@ -103,15 +103,16 @@ class Graph:
     def is_adjacent(self, key1: str, key2: str):
         return key2 in self._vertex_map[key1].edges
 
-    def get_adjacent(self, key: str) -> List[Vertex]:
+    def get_adjacent(self, key: str) -> Dict[str, float]:
         """ Get a list of all vertices reachable by the given key. """
-        n_keys = self._vertex_map[key].edges.keys()
-        vertices = [self._vertex_map[k] for k in n_keys]
-        return vertices
+        return self._vertex_map[key].edges
 
     def get_adjacent_keys(self, key: str) -> List[str]:
         """ Get the keys of all the reachable vertices from the given vertex. """
-        return [v.key for v in self.get_adjacent(key)]
+        return [k for k in self.get_adjacent(key)]
+
+    def get_edge_weight(self, key1: str, key2: str) -> float:
+        return self._vertex_map[key1].edges[key2]
 
     @property
     def vertex_count(self) -> int:

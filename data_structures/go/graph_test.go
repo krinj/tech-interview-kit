@@ -93,3 +93,12 @@ func TestGraphDisplay(t *testing.T) {
 	g.AddVertex("X")
 	g.Display()
 }
+
+func TestGraphEdgeWeight(t *testing.T) {
+	g := NewUndirectedGraph()
+	g.AddEdgeWithWeight("A", "B", 5)
+	g.AddEdgeWithWeight("B", "C", 12)
+
+	assert.Equal(t, 5.0, g.GetEdgeWeight("B", "A"))
+	assert.Equal(t, 12.0, g.GetEdgeWeight("B", "C"))
+}

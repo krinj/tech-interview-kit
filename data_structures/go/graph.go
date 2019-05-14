@@ -5,12 +5,12 @@ import "fmt"
 type Vertex struct {
 	Key   string
 	Data  interface{}
-	Edges map[string]float32
+	Edges map[string]float64
 }
 
 type Graph struct {
 	Directed      bool
-	DefaultWeight float32
+	DefaultWeight float64
 	vertexMap     map[string]*Vertex
 	numberOfEdges int
 }
@@ -42,7 +42,7 @@ func (g *Graph) AddVertexData(key string, data interface{}) {
 	if v, ok := g.vertexMap[key]; ok {
 		v.Data = data
 	} else {
-		vertex := Vertex{Key: key, Data: data, Edges: make(map[string]float32, 0)}
+		vertex := Vertex{Key: key, Data: data, Edges: make(map[string]float64, 0)}
 		g.vertexMap[key] = &vertex
 	}
 }
@@ -78,7 +78,7 @@ func (g *Graph) ensureVertex(key string) {
 	}
 }
 
-func (g *Graph) addEdgeWithWeightActual(keyFrom string, keyTo string, weight float32, reverse bool) {
+func (g *Graph) addEdgeWithWeightActual(keyFrom string, keyTo string, weight float64, reverse bool) {
 
 	g.ensureVertex(keyFrom)
 	g.ensureVertex(keyTo)
@@ -99,7 +99,7 @@ func (g *Graph) addEdgeWithWeightActual(keyFrom string, keyTo string, weight flo
 	}
 }
 
-func (g *Graph) AddEdgeWithWeight(keyFrom string, keyTo string, weight float32) {
+func (g *Graph) AddEdgeWithWeight(keyFrom string, keyTo string, weight float64) {
 	g.addEdgeWithWeightActual(keyFrom, keyTo, weight, !g.Directed)
 }
 
@@ -133,14 +133,17 @@ func (g *Graph) IsAdjacent(keyFrom string, keyTo string) bool {
 	return false
 }
 
-func (g *Graph) GetAdjacent(key string) []*Vertex {
-	vertex := g.vertexMap[key]
-	vertexList := make([]*Vertex, len(vertex.Edges))
-
-	for k, _ := range vertex.Edges {
-		vertexList = append(vertexList, g.vertexMap[k])
+func (g *Graph) GetEdgeWeight(keyFrom string, keyTo string) float64 {
+	vertex := g.vertexMap[keyFrom]
+	if w, ok := vertex.Edges[keyTo]; ok {
+		return w
 	}
-	return vertexList
+	return 0
+}
+
+func (g *Graph) GetAdjacent(key string) map[string]float64 {
+	vertex := g.vertexMap[key]
+	return vertex.Edges
 }
 
 func (g *Graph) GetAdjacentKeys(key string) []string {
