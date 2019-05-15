@@ -193,6 +193,8 @@ func (g *Graph) Display() {
 					continue
 				}
 
+				seenMap[k2] = k
+
 				if !g.Directed {
 					fmt.Printf("%v <--%v--> %v\n", k, w, k2)
 				} else {
