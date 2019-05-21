@@ -5,7 +5,7 @@
 
 def binary_search(arr, k, start, end):
     delta = end - start
-    if delta == 0:
+    if delta <= 0:
         return -1
 
     m = start + delta // 2
