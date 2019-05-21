@@ -1,34 +1,27 @@
 
 
-def knapsack(items, max_w, memo, i):
-
-    key = (i, max_w)
-    if key in memo:
-        return memo[key]
+def knapsack(arr, i, w, memo):
 
     if i < 0:
         return (0, [])
+    
+    key = (i, w)
+    if key in memo:
+        return memo[key]
 
-    v1, sack1 = knapsack(items, max_w, memo, i - 1)
+    v, s = knapsack(arr, i - 1, w, memo)
 
-    item = items[i]
-    if item.weight <= max_w:
-
-        v2, sack2 = knapsack(items, max_w - item.weight, memo, i - 1)
+    item = arr[i]
+    if w >= item.weight:
+        v2, s2 = knapsack(arr, i - 1, w - item.weight, memo)
         v2 += item.value
 
-        result = max(v1, v2)
-        if v1 == result:
-            sack = sack1[:]
-        else:
-            sack = sack2[:]
-            sack.append(item.key)
-    else:
+        if v2 > v:
+            v = v2
+            s = s2[:]
+            s.append(item.key)
 
-        result = v1
-        sack = sack1[:]
-    
-    memo[key] = (result, sack)
+    memo[key] = (v, s)
     return memo[key]
 
 
@@ -48,9 +41,9 @@ def main():
         Item("E", 15, 1),
         Item("F", 200, 80)
     ]
-    max_weight = 100
+    max_weight = 50
     memo = {}
-    result = knapsack(items, max_weight, memo, len(items) - 1)
+    result = knapsack(items, len(items) - 1, max_weight, memo)
     print(f"Results: {result}")
 
 
