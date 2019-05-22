@@ -3,21 +3,22 @@
 # Output: Index of k if it exists in the array, else -1.
 
 
-def binary_search(arr, k, start, end):
-    delta = end - start
-    if delta <= 0:
+def binary_search(arr, e, low, high):
+    delta = high - low
+    if delta == 0:
         return -1
 
-    m = start + delta // 2
+    m = low + delta // 2
     v = arr[m]
 
-    if v == k:
+    if v == e:
         return m
 
-    if v > k:
-        return binary_search(arr, k, start, m)
+    if v > e:
+        return binary_search(arr, e, low, m)
     else:
-        return binary_search(arr, k, m + 1, end)
+        return binary_search(arr, e, m + 1, high)
+    
 
 
 def test_binary_search(arr, search_func):
