@@ -9,28 +9,31 @@ class LinkedList:
     def __init__(self):
         self.head = None
         self.tail = None
+        self.size = 0
 
     def add(self, x):
-        node = Node(x)
-        
-        if self.head is None:
-            self.head = node
-            self.tail = node
+        n = Node(x)
+        if self.tail is None:
+            self.head = n
+            self.tail = n
         else:
-            self.tail.next = node
-            node.prev = self.tail
-            self.tail = node
+            self.tail.next = n
+            n.prev = self.tail
+            self.tail = n
+        self.size += 1
     
     def pop(self):
         if self.head is None:
-            raise Exception("Cannot pop anymore")
+            return None
         
         x = self.head.val
-        self.head = self.head.next
-        if self.head is None:
+        if self.size == 1:
+            self.head = None
             self.tail = None
-
-        print(f"Popping: {x}")
+        else:
+            self.head.next.prev = None
+            self.head = self.head.next
+        self.size -= 1
         return x
 
     def traverse(self):

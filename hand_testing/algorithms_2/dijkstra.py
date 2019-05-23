@@ -7,42 +7,30 @@
 import sys
 import heapq
 
-def dijkstra(graph, origin, target):
+def dijkstra(graph, start, end):
 
-    dist = {k: [sys.maxsize, None] for k in graph}
-    heap = [(0, origin)]
-    dist[origin][0] = 0
-    print(dist)
+    path = {k: (sys.maxsize, None) for k in graph}
 
-    ops = 0
+    path[start] = (0, None)
+    q = [(0, start)]
 
-    while True:
-        
-        print(heap)
-        ops += 1
-        if len(heap) <= 0:
-            for k, v in dist.items():
-                print(f"{k}: {v[0]}")
+    while len(q) > 0:
+        print(q)
+        cost, node = heapq.heappop(q)
+        if node == end:
+            result = []
+            while node != start:
+                result.append(node)
+                node = path[node][1]
+            result.append(node)
+            result.reverse()
+            return result, cost
 
-            path = []
-            prev = target
-            cost = dist[prev][0]
-            while prev != origin:
-                path.append(prev)
-                prev = dist[prev][1]
-            path.append(prev)
-            path.reverse()
-            print(f"Total Ops: {ops}")
-            return path, cost
-
-        node = heapq.heappop(heap)[1]
-        next = graph[node]
-        for n, w in next.items():
-            d = w + dist[node][0]
-            if d < dist[n][0]:
-                dist[n][0] = d
-                dist[n][1] = node
-                heapq.heappush(heap, (d, n))
+        for m_key, v in graph[node].items():
+            m_cost = cost + v
+            if m_cost < path[m_key][0]:
+                path[m_key] = (m_cost, node)
+                heapq.heappush(q, (m_cost, m_key))
 
     return [], -1
 
@@ -55,9 +43,9 @@ def make_graph():
         "D": {"B": 1, "E": 1, "F": 1},
         "E": {"A": 1, "D": 5, "G": 1},
         "F": {"D": 1, "I": 1},
-        "G": {"E": 1, "H": 1},
+        "G": {"E": 10, "H": 1},
         "H": {"G": 1, "I": 3},
-        "I": {"H": 1}
+        "I": {"H": 1, "F": 2}
     }
     return graph
 
@@ -65,7 +53,7 @@ def make_graph():
 def main():
     graph = make_graph()
     origin = "I"
-    target = "A"
+    target = "X"
     path, cost = dijkstra(graph, origin, target)
     print(f"Path from {origin} to {target}: {path} | Cost: {cost}")
 

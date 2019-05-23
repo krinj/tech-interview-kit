@@ -4,14 +4,14 @@ from vis_tree import Node
 
 def create_bst(arr, low, high):
     delta = high - low
-    if delta <= 0:
+    if delta == 0:
         return None
 
-    m = low + delta // 2
-    node = Node(arr[m])
-    node.left = create_bst(arr, low, m)
-    node.right = create_bst(arr, m + 1, high)
-    return node
+    i = low + delta // 2
+    n = Node(arr[i])
+    n.left = create_bst(arr, low, i)
+    n.right = create_bst(arr, i + 1, high)
+    return n
 
 
 def main():

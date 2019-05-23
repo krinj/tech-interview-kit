@@ -1,35 +1,34 @@
 # A 🡪 B 🡪 C
-# 🡫   🡫    
+# 🡫       
 # E 🡪 D 🡪 F
 # 🡫        🡫
 # G 🡪 H 🡪 I  
 
 
 def top_sort(graph):
-
     n_inbound = {}
+
     for k, nodes in graph.items():
+        if k not in n_inbound:
+            n_inbound[k] = 0
         for n in nodes:
             if n not in n_inbound:
                 n_inbound[n] = 1
             else:
                 n_inbound[n] += 1
 
-        if k not in n_inbound:
-                n_inbound[k] = 0
-
-    stack = [n for n, v in n_inbound.items() if v == 0]
     result = []
+    valid_nodes = [k for k, v in n_inbound.items() if v == 0]
 
-    while len(stack) > 0:
-        n = stack.pop()
+    while len(valid_nodes) > 0:
+        n = valid_nodes.pop()
         result.append(n)
 
-        for k in graph[n]:
-            n_inbound[k] -= 1
-            if n_inbound[k] == 0:
-                stack.append(k)
-                
+        for m in graph[n]:
+            n_inbound[m] -= 1
+            if n_inbound[m] == 0:
+                valid_nodes.append(m)
+
     if len(result) == len(graph):
         return result
     else:

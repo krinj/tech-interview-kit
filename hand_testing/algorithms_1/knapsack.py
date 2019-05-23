@@ -1,27 +1,25 @@
 
 
 def knapsack(arr, i, w, memo):
+    if i == -1:
+        return 0, []
 
-    if i < 0:
-        return (0, [])
-    
     key = (i, w)
     if key in memo:
         return memo[key]
 
-    v, s = knapsack(arr, i - 1, w, memo)
+    v, sack = knapsack(arr, i-1, w, memo)
 
     item = arr[i]
     if w >= item.weight:
-        v2, s2 = knapsack(arr, i - 1, w - item.weight, memo)
+        v2, sack2 = knapsack(arr, i-1, w-item.weight, memo)
         v2 += item.value
-
         if v2 > v:
             v = v2
-            s = s2[:]
-            s.append(item.key)
-
-    memo[key] = (v, s)
+            sack = sack2[:]
+            sack.append(item.key)
+    
+    memo[key] = (v, sack)
     return memo[key]
 
 
