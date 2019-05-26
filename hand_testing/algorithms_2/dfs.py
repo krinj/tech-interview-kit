@@ -8,25 +8,19 @@
 from collections import deque
 
 
-def dfs(graph, node, target) -> bool:
+def dfs(graph, node, x) -> bool:
     """ Perform Depth First Search on the graph. Return bool (if element is there). """
     seen = set()
-    stack = []
-
-    stack.append(node)
-    seen.add(node)
+    stack = [node]
 
     while len(stack) > 0:
         n = stack.pop()
-        print(f"Searching: {n}")
-        if n == target:
+        if n == x:
             return True
-
-        for m in graph[n]:
-            if m not in seen:
-                seen.add(m)
-                stack.append(m)
-
+        for child in graph[n]:
+            if child not in seen:
+                seen.add(child)
+                stack.append(child)
     return False
 
 
@@ -40,7 +34,7 @@ def generate_graph():
         "F": ["I"],
         "G": ["H"],
         "H": ["I"],
-        "I": ["A"]
+        "I": []
     }
     return graph
 
@@ -48,8 +42,8 @@ def generate_graph():
 def main():
     graph = generate_graph()
 
-    root_key = "A"
-    target = "X"
+    root_key = "E"
+    target = "B"
 
     result = dfs(graph, root_key, target)
     print(f"Path from {root_key} to {target}: {result}")

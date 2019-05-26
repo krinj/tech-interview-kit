@@ -6,33 +6,25 @@
 
 
 def top_sort(graph):
-    n_inbound = {}
-
-    for k, nodes in graph.items():
-        if k not in n_inbound:
-            n_inbound[k] = 0
+    d_map = {k: 0 for k in graph}
+    for nodes in graph.values():
         for n in nodes:
-            if n not in n_inbound:
-                n_inbound[n] = 1
-            else:
-                n_inbound[n] += 1
-
-    result = []
-    valid_nodes = [k for k, v in n_inbound.items() if v == 0]
+            d_map[n] += 1
+    
+    valid_nodes = [k for k, v in d_map.items() if v == 0]
+    result =[]
 
     while len(valid_nodes) > 0:
         n = valid_nodes.pop()
         result.append(n)
-
-        for m in graph[n]:
-            n_inbound[m] -= 1
-            if n_inbound[m] == 0:
-                valid_nodes.append(m)
-
+        for c in graph[n]:
+            d_map[c] -= 1
+            if d_map[c] == 0:
+                valid_nodes.append(c)
+    
     if len(result) == len(graph):
         return result
-    else:
-        return None
+    return None
 
 
 def make_graph():

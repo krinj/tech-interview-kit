@@ -1,41 +1,36 @@
 def heapify(arr, i, end):
-    left = i * 2 + 1
+    left = 2 * i + 1
     right = left + 1
 
-    v_left = arr[left] if left < end else None
-    v_right = arr[right] if right < end else None
-
-    if v_left is None and v_right is None:
+    if left >= end:
         return
-
-    if v_right is None or (v_left is not None and v_left >= v_right):
-        v_max = v_left
-        v_idx = left
-    else:
-        v_max = v_right
-        v_idx = right
     
-    if v_max > arr[i]:
-        arr[v_idx] = arr[i]
-        arr[i] = v_max
-        heapify(arr, v_idx, end)
+    v = arr[left]
+    j = left
+
+    if right < end and arr[right] > arr[left]:
+        v = arr[right]
+        j = right
+    
+    if v > arr[i]:
+        arr[j] = arr[i]
+        arr[i] = v
+        heapify(arr, j, end)
 
 def create_heap(arr):
-    end = len(arr)
-    i = end // 2 - 1
-
+    i = len(arr) // 2
     while i >= 0:
-        heapify(arr, i, end)
+        heapify(arr, i, len(arr))
         i -= 1
 
 def heap_sort(arr):
     create_heap(arr)
+
     i = len(arr) - 1
     while i > 0:
-        tmp = arr[i]
-        arr[i] = arr[0]
-        arr[0] = tmp
-
+        tmp = arr[0]
+        arr[0] = arr[i]
+        arr[i] = tmp
         heapify(arr, 0, i)
         i -= 1
 

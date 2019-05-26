@@ -9,30 +9,27 @@ import heapq
 
 def dijkstra(graph, start, end):
 
-    path = {k: (sys.maxsize, None) for k in graph}
+    paths = {k:(sys.maxsize, None) for k in graph}
+    paths[start] = (0, None)
+    heap = [(0, start)]
 
-    path[start] = (0, None)
-    q = [(0, start)]
+    while len(heap) > 0:
+        d, k = heapq.heappop(heap)
+        if k == end:
+            final_path = []
+            while k != start:
+                final_path.append(k)
+                k = paths[k][1]
+            final_path.append(k)
+            final_path.reverse()
+            return d, final_path
 
-    while len(q) > 0:
-        print(q)
-        cost, node = heapq.heappop(q)
-        if node == end:
-            result = []
-            while node != start:
-                result.append(node)
-                node = path[node][1]
-            result.append(node)
-            result.reverse()
-            return result, cost
-
-        for m_key, v in graph[node].items():
-            m_cost = cost + v
-            if m_cost < path[m_key][0]:
-                path[m_key] = (m_cost, node)
-                heapq.heappush(q, (m_cost, m_key))
-
-    return [], -1
+        for n in graph[k]:
+            dn = d + graph[k][n]
+            if dn < paths[n][0]:
+                paths[n] = dn, k
+                heapq.heappush(heap, (dn, n))
+    return -1, []
 
 
 def make_graph():
@@ -53,8 +50,8 @@ def make_graph():
 def main():
     graph = make_graph()
     origin = "I"
-    target = "X"
-    path, cost = dijkstra(graph, origin, target)
+    target = "A"
+    cost, path = dijkstra(graph, origin, target)
     print(f"Path from {origin} to {target}: {path} | Cost: {cost}")
 
 

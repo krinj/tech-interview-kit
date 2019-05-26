@@ -10,24 +10,18 @@ from collections import deque
 
 def bfs(graph, node, e) -> bool:
     """ Perform Breadth First Search on the graph. Return bool (if element is there). """
-
     seen = set()
-    queue = deque()
-    queue.append(node)
+    q = deque()
+    q.append(node)
 
-    while len(queue) > 0:
-        n = queue.popleft()
-        if n is None or n in seen:
-            continue
-
-        if n == e:
+    while len(q) > 0:
+        node = q.pop()
+        if node == e:
             return True
-
-        seen.add(n)
-        neighbors = graph[n]
-        for next_n in neighbors:
-            queue.append(next_n)
-    
+        for n in graph[node]:
+            if n not in seen:
+                seen.add(n)
+                q.append(n)
     return False
 
 def generate_graph():
@@ -49,7 +43,7 @@ def main():
     graph = generate_graph()
 
     root_key = "A"
-    target = "I"
+    target = "X"
 
     result = bfs(graph, root_key, target)
     print(f"Path from {root_key} to {target}: {result}")

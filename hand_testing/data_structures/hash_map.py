@@ -5,10 +5,7 @@ class Node:
         self.next = None
 
     def __repr__(self):
-        # if self.k is None:
-        #     return ""
         return f"{self.k}: {self.v}"
-
 
     def __str__(self):
         return self.__repr__()
@@ -16,58 +13,50 @@ class Node:
 
 class HashMap:
     def __init__(self):
-        self.arr = []
-        self.cap =  0
         self.size = 0
+        self.arr = []
         self.resize(4)
 
     def resize(self, new_size):
-        new_arr = []
-        for _ in range(new_size):
-            new_arr.append(Node())
-
-        for n in self.arr:
-            while n.k is not None:
-                self.insert(new_arr, n.k, n.v, new_size)
-                n = n.next
+        new_arr = [Node() for _ in range(new_size)]
+        for node in self.arr:
+            while node.k is not None:
+                self.insert(new_arr, node.k, node.v)
+                node = node.next
         self.arr = new_arr
-        self.cap = new_size
 
     def index(self, k, cap):
-        i = hash(k)
-        i %= cap
-        return i
+        return hash(k) % cap
 
-    def insert(self, arr, k, v, cap):
-        i = self.index(k, cap)
+    def insert(self, arr, k, v):
+        i = self.index(k, len(arr))
         n = arr[i]
+
         while True:
             if n.k is None:
                 n.k = k
                 n.next = Node()
                 break
-            elif n.k == k:
+            if n.k == k:
                 break
             n = n.next
         n.v = v
 
     def add(self, k, v):
-        self.insert(self.arr, k, v, self.cap)
+        if self.size >= len(self.arr):
+            self.resize(len(self.arr) * 2)
+
+        self.insert(self.arr, k, v)
         self.size += 1
-        if self.size >= self.cap:
-            new_size = int(self.cap * 2)
-            self.resize(new_size)
 
     def get(self, k):
-        i = self.index(k, self.cap)
+        i = self.index(k, len(self.arr))
         n = self.arr[i]
-
-        while True:
-            if n.k == None:
-                raise Exception(f"Key {k} does not exist.")
-            elif n.k == k:
+        while n.k is not None:
+            if n.k == k:
                 return n.v
             n = n.next
+        return None
 
     def describe(self):
         for i, sub in enumerate(self.arr):
@@ -84,6 +73,9 @@ def main():
     h.add("A", 5)
     h.add("B", 3)
     h.add("C", 8)
+    h.add("D", 8)
+    h.add("E", 8)
+    h.add("F", 8)
     h.add("A", 2)
     h.describe()
 

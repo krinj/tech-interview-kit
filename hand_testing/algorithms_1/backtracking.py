@@ -7,43 +7,45 @@ class Queen:
         self.x = x
         self.y = y
 
+    def __repr__(self):
+        return f"{self.x}:{self.y}"
 
-def safe(q1, q2):
-    if q1.y == q2.y or q1.x == q2.x:
+def is_safe(q1, q2):
+    if q1.x == q2.x or q1.y == q2.y:
         return False
-
+    
     dx = abs(q1.x - q2.x)
     dy = abs(q1.y - q2.y)
     return dx != dy
 
 
-def place(board, n, x):
-    if x == 0:
+def place(board, x, n):
+
+    if x == n:
+        print(board)
         return 1
 
     count = 0
     for y in range(n):
         q = Queen(x, y)
-        all_safe = True
+        safe = True
 
         for q2 in board:
-            if not safe(q, q2):
-                all_safe = False
+            if not is_safe(q, q2):
+                safe = False
                 break
-        
-        if not all_safe:
-            continue
 
-        board.append(q)
-        count += place(board, n, x - 1)
-        board.pop()
+        if safe:
+            board.append(q)
+            count += place(board, x+1, n)
+            board.pop()
 
     return count
 
 
 def main():
     n = 8
-    result = place([], n, n)
+    result = place([], 0, n)
     print(f"Result: {result}")
     pass
 

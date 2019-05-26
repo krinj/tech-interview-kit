@@ -1,32 +1,25 @@
-def merge_sort(arr, low, high):
-    
-    delta = high - low
-    if delta <= 1:
-        return arr[low:high]
-    
-    m = low + delta // 2
-    left = merge_sort(arr, low, m)
-    right = merge_sort(arr, m, high)
-    result = merge(left, right)
-    return result
+def merge_sort(arr):
+    if len(arr) <= 1:
+        return arr
 
+    m = len(arr) // 2
+    left = merge_sort(arr[:m])
+    right = merge_sort(arr[m:])
+    return merge(left, right)
 
 def merge(left, right):
-    result = []
 
+    result = []
     i = 0
     j = 0
 
     while i < len(left) or j < len(right):
 
-        vi = None if i >= len(left) else left[i]
-        vj = None if j >= len(right) else right[j]
-
-        if vj is None or (vi is not None and vi <= vj):
-            result.append(vi)
+        if j >= len(right) or (i < len(left) and left[i] <= right[j]):
+            result.append(left[i])
             i += 1
         else:
-            result.append(vj)
+            result.append(right[j])
             j += 1
 
     return result
@@ -34,5 +27,5 @@ def merge(left, right):
 
 if __name__ == "__main__":
     arr = [2, 5, 3, 4, 6, 7, 1, 8, 9, 0, -1, 2, 5]
-    result = merge_sort(arr, 0, len(arr))
+    result = merge_sort(arr)
     print(result)
