@@ -13,16 +13,16 @@ class Node:
 
 class HashMap:
     def __init__(self):
-        self.size = 0
         self.arr = []
+        self.size = 0
         self.resize(4)
 
     def resize(self, new_size):
         new_arr = [Node() for _ in range(new_size)]
-        for node in self.arr:
-            while node.k is not None:
-                self.insert(new_arr, node.k, node.v)
-                node = node.next
+        for n in self.arr:
+            while n.k is not None:
+                self.insert(new_arr, n.k, n.v)
+                n = n.next
         self.arr = new_arr
 
     def index(self, k, cap):
@@ -31,11 +31,10 @@ class HashMap:
     def insert(self, arr, k, v):
         i = self.index(k, len(arr))
         n = arr[i]
-
         while True:
             if n.k is None:
-                n.k = k
                 n.next = Node()
+                n.k = k
                 break
             if n.k == k:
                 break
@@ -45,18 +44,18 @@ class HashMap:
     def add(self, k, v):
         if self.size >= len(self.arr):
             self.resize(len(self.arr) * 2)
-
         self.insert(self.arr, k, v)
         self.size += 1
 
     def get(self, k):
         i = self.index(k, len(self.arr))
         n = self.arr[i]
-        while n.k is not None:
+        while True:
             if n.k == k:
                 return n.v
+            if n.k == None:
+                return None
             n = n.next
-        return None
 
     def describe(self):
         for i, sub in enumerate(self.arr):

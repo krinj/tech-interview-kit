@@ -1,6 +1,6 @@
 
 def sum_1_to_n(n):
-    return (n * (n + 1)) // 2
+    return (n + 1) * (n / 2)
 
 
 def test_sum_1_to_n(n, func):

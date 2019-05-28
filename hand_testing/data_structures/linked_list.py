@@ -13,7 +13,7 @@ class LinkedList:
 
     def add(self, x):
         n = Node(x)
-        if self.tail is None:
+        if self.size == 0:
             self.head = n
             self.tail = n
         else:
@@ -23,13 +23,10 @@ class LinkedList:
         self.size += 1
     
     def pop(self):
-        if self.head is None:
-            return None
-        
         x = self.head.val
         if self.size == 1:
             self.head = None
-            self.tail = None
+            self.tail == None
         else:
             self.head.next.prev = None
             self.head = self.head.next

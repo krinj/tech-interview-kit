@@ -20,26 +20,20 @@ def is_safe(q1, q2):
 
 
 def place(board, x, n):
-
     if x == n:
-        print(board)
         return 1
-
     count = 0
     for y in range(n):
         q = Queen(x, y)
         safe = True
-
         for q2 in board:
             if not is_safe(q, q2):
                 safe = False
                 break
-
         if safe:
             board.append(q)
-            count += place(board, x+1, n)
+            count += place(board, x + 1, n)
             board.pop()
-
     return count
 
 

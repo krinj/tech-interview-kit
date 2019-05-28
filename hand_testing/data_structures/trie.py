@@ -12,37 +12,40 @@ class Trie:
         self.root = Node()
 
     def add(self, word: str) -> None:
-        node = self.root
+        n = self.root
         for c in word:
-            if c not in node.children:
-                node.children[c] = Node(c)
-            node = node.children[c]
-        node.terminal = True
+            if c not in n.children:
+                n.children[c] = Node()
+            n = n.children[c]
+        n.terminal = True
 
     def validate(self, word: str) -> bool:
-        node = self.find_node(word)
-        return node.terminal
+        n = self.find_node(word)
+        if n is None or not n.terminal:
+            return False
+        return True
 
     def find_node(self, word: str):
-        node = self.root
+        n = self.root
         for c in word:
-            if c not in node.children:
+            if c not in n.children:
                 return None
-            node = node.children[c]
-        return node
+            n = n.children[c]
+        return n
 
     def autocomplete(self, prefix: str):
-        node = self.find_node(prefix)
-        words = []
-        self.dfs(words, prefix, node)
-        return words
+        n = self.find_node(prefix)
+        result = []
+        self.dfs(result, prefix, n)
+        return result
         
-    def dfs(self, words, prefix, node):
-        if node.terminal:
-            words.append(prefix)
-
-        for k, next_node in node.children.items():
-            self.dfs(words, prefix + k, next_node)
+    def dfs(self, arr, p, n):
+        if n is None:
+            return
+        if n.terminal:
+            arr.append(p)
+        for k, c in n.children.items():
+            self.dfs(arr, p + k, c)
 
 
 def main():

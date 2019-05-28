@@ -1,28 +1,27 @@
 def merge_sort(arr):
     if len(arr) <= 1:
         return arr
-
+    
     m = len(arr) // 2
     left = merge_sort(arr[:m])
     right = merge_sort(arr[m:])
     return merge(left, right)
 
 def merge(left, right):
-
-    result = []
+    arr = []
     i = 0
     j = 0
-
     while i < len(left) or j < len(right):
-
         if j >= len(right) or (i < len(left) and left[i] <= right[j]):
-            result.append(left[i])
+            arr.append(left[i])
             i += 1
         else:
-            result.append(right[j])
+            arr.append(right[j])
             j += 1
+    
+    return arr
 
-    return result
+    
 
 
 if __name__ == "__main__":
