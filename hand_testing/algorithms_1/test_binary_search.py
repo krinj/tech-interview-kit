@@ -8,15 +8,15 @@ def binary_search(arr, x, low, high):
     if delta == 0:
         return -1
 
-    m = low + delta // 2
-    if arr[m] == x:
-        return m
+    i = low + delta // 2
+
+    if arr[i] == x:
+        return i
     
-    if arr[m] > x:
-        return binary_search(arr, x, low, m)
+    if arr[i] > x:
+        return binary_search(arr, x, low, i)
     else:
-        return binary_search(arr, x, m + 1, high)
-    
+        return binary_search(arr, x, i + 1, high)
 
 
 def test_binary_search(arr, search_func):

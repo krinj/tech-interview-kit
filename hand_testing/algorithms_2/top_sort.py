@@ -6,22 +6,19 @@
 
 
 def top_sort(graph):
-    d_map = {k: 0 for k in graph}
-    for nodes in graph.values():
-        for n in nodes:
-            d_map[n] += 1
-    
-    valid_nodes = [k for k, v in d_map.items() if v == 0]
-    result =[]
-
-    while len(valid_nodes) > 0:
-        n = valid_nodes.pop()
+    d_count = {k: 0 for k in graph}
+    for _, children in graph.items():
+        for c in children:
+            d_count[c] += 1
+    q = [k for k, v in d_count.items() if v == 0]
+    result = []
+    while len(q) > 0:
+        n = q.pop()
         result.append(n)
         for c in graph[n]:
-            d_map[c] -= 1
-            if d_map[c] == 0:
-                valid_nodes.append(c)
-    
+            d_count[c] -= 1
+            if d_count[c] == 0:
+                q.append(c)
     if len(result) == len(graph):
         return result
     return None

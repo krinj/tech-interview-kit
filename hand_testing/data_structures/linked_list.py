@@ -26,7 +26,7 @@ class LinkedList:
         x = self.head.val
         if self.size == 1:
             self.head = None
-            self.tail == None
+            self.tail = None
         else:
             self.head.next.prev = None
             self.head = self.head.next

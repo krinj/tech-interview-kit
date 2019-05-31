@@ -6,11 +6,10 @@ def create_bst(arr, low, high):
     delta = high - low
     if delta == 0:
         return None
-
-    m = low + delta // 2
-    n = Node(arr[m])
-    n.left = create_bst(arr, low, m)
-    n.right = create_bst(arr, m + 1, high)
+    i = low + delta // 2
+    n = Node(arr[i])
+    n.left = create_bst(arr, low, i)
+    n.right = create_bst(arr, i + 1, high)
     return n
 
 

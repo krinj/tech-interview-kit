@@ -15,15 +15,13 @@ class Trie:
         n = self.root
         for c in word:
             if c not in n.children:
-                n.children[c] = Node()
+                n.children[c] = Node(c)
             n = n.children[c]
         n.terminal = True
 
     def validate(self, word: str) -> bool:
         n = self.find_node(word)
-        if n is None or not n.terminal:
-            return False
-        return True
+        return n is not None and n.terminal
 
     def find_node(self, word: str):
         n = self.root
@@ -35,17 +33,20 @@ class Trie:
 
     def autocomplete(self, prefix: str):
         n = self.find_node(prefix)
-        result = []
-        self.dfs(result, prefix, n)
-        return result
-        
-    def dfs(self, arr, p, n):
         if n is None:
-            return
-        if n.terminal:
-            arr.append(p)
-        for k, c in n.children.items():
-            self.dfs(arr, p + k, c)
+            return []
+
+        q = deque()
+        q.append((n, prefix))
+
+        result = []
+        while len(q) > 0:
+            n, p = q.popleft()
+            if n.terminal:
+                result.append(p)
+            for k, c in n.children.items():
+                q.append((c, p + k))
+        return result
 
 
 def main():
@@ -62,6 +63,10 @@ def main():
     print(result)
 
     w = "hour"
+    result = trie.validate(w)
+    print(f"Validate {w}: {result}") 
+
+    w = "heos"
     result = trie.validate(w)
     print(f"Validate {w}: {result}") 
 

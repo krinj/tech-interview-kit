@@ -26,7 +26,7 @@ class HashMap:
         self.arr = new_arr
 
     def index(self, k, cap):
-        return hash(k) % cap
+        return hash(k) % cap        
 
     def insert(self, arr, k, v):
         i = self.index(k, len(arr))
@@ -39,7 +39,7 @@ class HashMap:
             if n.k == k:
                 break
             n = n.next
-        n.v = v
+        n.v = v 
 
     def add(self, k, v):
         if self.size >= len(self.arr):
@@ -50,12 +50,11 @@ class HashMap:
     def get(self, k):
         i = self.index(k, len(self.arr))
         n = self.arr[i]
-        while True:
+        while n.k is not None:
             if n.k == k:
                 return n.v
-            if n.k == None:
-                return None
             n = n.next
+        return None
 
     def describe(self):
         for i, sub in enumerate(self.arr):
@@ -81,6 +80,7 @@ def main():
     print(h.get("A"))
     print(h.get("B"))
     print(h.get("C"))
+    print(h.get("X"))
 
 
 if __name__ == "__main__":

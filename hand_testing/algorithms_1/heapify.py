@@ -1,9 +1,10 @@
 def heapify(arr, i, end):
     left = 2 * i + 1
     right = left + 1
+
     if left >= end:
         return
-    
+
     v = arr[left]
     idx = left
 
@@ -12,28 +13,24 @@ def heapify(arr, i, end):
             v = arr[right]
             idx = right
 
-    if arr[i] < v:
+    if v > arr[i]:
         arr[idx] = arr[i]
         arr[i] = v
-        heapify(arr, idx, end)
+        heapify(arr, i, end)
 
 def create_heap(arr):
-    i = len(arr) // 2
-
-    while i >= 0:
+    m = len(arr) // 2
+    for i in range(m, -1, -1):
         heapify(arr, i, len(arr))
-        i -= 1
 
 
 def heap_sort(arr):
     create_heap(arr)
-    i = len(arr) - 1
-    while i > 0:
+    for i in range(len(arr) - 1, 0, -1):
         tmp = arr[i]
         arr[i] = arr[0]
         arr[0] = tmp
         heapify(arr, 0, i)
-        i -= 1
 
 def main():
     arr = [1, 8, 5, 3, 4, 2, 9]

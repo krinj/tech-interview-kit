@@ -1,7 +1,7 @@
 
 
 def knapsack(arr, i, w, memo):
-    if i == -1:
+    if i < 0:
         return 0, []
 
     key = (i, w)
@@ -17,8 +17,8 @@ def knapsack(arr, i, w, memo):
             v = v2
             sack = sack2[:]
             sack.append(item.key)
-        
-    memo[key] = (v, sack)
+    
+    memo[key] = v, sack
     return memo[key]
 
 

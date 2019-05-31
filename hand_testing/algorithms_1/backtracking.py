@@ -13,15 +13,17 @@ class Queen:
 def is_safe(q1, q2):
     if q1.x == q2.x or q1.y == q2.y:
         return False
-    
+
     dx = abs(q1.x - q2.x)
     dy = abs(q1.y - q2.y)
+
     return dx != dy
 
 
 def place(board, x, n):
-    if x == n:
+    if x == 0:
         return 1
+
     count = 0
     for y in range(n):
         q = Queen(x, y)
@@ -30,16 +32,18 @@ def place(board, x, n):
             if not is_safe(q, q2):
                 safe = False
                 break
+
         if safe:
             board.append(q)
-            count += place(board, x + 1, n)
+            count += place(board, x - 1, n)
             board.pop()
+        
     return count
 
 
 def main():
     n = 8
-    result = place([], 0, n)
+    result = place([], n, n)
     print(f"Result: {result}")
     pass
 
